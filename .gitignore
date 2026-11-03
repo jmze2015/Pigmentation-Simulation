@@ -1,4 +1,14 @@
-.Rproj.user
+# RStudio temporary files
+.Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
+
+# Generated simulation frames
+frames/
+
+# Generated videos
+*.mp4
+
+# Temporary files
+*.tmp
