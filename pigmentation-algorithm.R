@@ -6,7 +6,7 @@
 ## Lattice sizes chosen N = 10,20,30,40 (or anything you want)
 ## Main Loop for N in the given vector
 
-## Parameters
+## Parameters from Bio paper
 
 h <- 0
 J1 <- 1
@@ -64,13 +64,17 @@ Viz <- function(A){
     col = cols,
     breaks = c(-1, 0, 1),
     xlab = "",
-    ylab = ""
+    ylab = "",
+    main = "R="
   )  
 }
 
 
-
-
+Viz(lattice)
+Viz(Sweep(lattice, 1))
+Viz(Sweep(lattice,2))
+Viz(Sweep(lattice,3))
+Viz(Sweep(lattice,4))
 
 
 
