@@ -15,7 +15,10 @@
 # R2 <- 6
 
 ## Square Lattice Dimension
-N <- 60
+N <- 100
+
+
+
 ## Rectangular Lattice Dimension
 M <- 80
 
