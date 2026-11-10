@@ -325,6 +325,163 @@ pigment_simulation_6(
 
 
 
+########## Visuals for the presentation Only ###########
+
+
+## Visualization of a config.
+Pattern_Viz <- function(A){
+  nr <- nrow(A)
+  nc <- ncol(A)
+  
+  cols <- c("white", "grey20", "#E5484D", "#4285F4")
+  
+  image(
+    1:nc, 1:nr,
+    t(apply(A, 2, rev)),
+    col = cols,
+    breaks = c(-0.5, 0.5, 1.5, 2.5, 3.5),
+    xlim = c(0.5, nc + 0.5),
+    ylim = c(0.5, nr + 0.5),
+    xlab = "",
+    ylab = "",
+    main = "Visualizing Discrete Neighborhoods",
+    asp = 1,
+    axes = FALSE,
+    xaxs = "i",
+    yaxs = "i"
+  )
+  
+  ## Vertical grid lines
+  segments(
+    x0 = seq(0.5, nc + 0.5, 1),
+    y0 = 0.5,
+    x1 = seq(0.5, nc + 0.5, 1),
+    y1 = nr + 0.5,
+    col = "gray80",
+    lwd = 0.5
+  )
+  
+  ## Horizontal grid lines
+  segments(
+    x0 = 0.5,
+    y0 = seq(0.5, nr + 0.5, 1),
+    x1 = nc + 0.5,
+    y1 = seq(0.5, nr + 0.5, 1),
+    col = "gray80",
+    lwd = 0.5
+  )
+  
+  ## Outer border aligned with the lattice
+  rect(0.5, 0.5, nc + 0.5, nr + 0.5, border = "black")
+}
+
+## Define matrix for visualization
+A <- matrix(0, 20,20)
+
+R1 <- 1
+R2 <- 6
+
+## Pick site
+i <- sample(seq(1, nrow(A)),1)
+j <- sample(seq(1, ncol(A)),1)
+
+A[i,j] <- 1
+
+## Squared distances
+d2 <- (row(A)-i)^2 + (col(A)-j)^2
+
+## J1 term computation
+
+mask_j1 <- (d2 > 0) & (d2 <= R1^2)
+A[mask_j1] <- 2
+## J2 term computation
+
+mask_j2 <- (d2 > R1^2) & (d2 < R2^2)
+A[mask_j2] <- 3
+
+Pattern_Viz(A)
+
+
+
+#### Periodic Boundary Condition ##########
+
+## Visualization of periodic neighborhoods
+Pattern_Viz_Periodic <- function(N = 20, M = 20, R1 = 1, R2 = 6,
+                        i = sample(1:N, 1),
+                        j = sample(1:M, 1)) {
+  
+  ## Define lattice
+  A <- matrix(0, N, M)
+  
+  ## Periodic distances
+  dx <- abs(row(A) - i)
+  dy <- abs(col(A) - j)
+  
+  dx <- pmin(dx, N - dx)
+  dy <- pmin(dy, M - dy)
+  
+  d2 <- dx^2 + dy^2
+  
+  ## J1 neighborhood (red)
+  mask_j1 <- (d2 > 0) & (d2 <= R1^2)
+  A[mask_j1] <- 2
+  
+  ## J2 neighborhood (blue)
+  mask_j2 <- (d2 > R1^2) & (d2 < R2^2)
+  A[mask_j2] <- 3
+  
+  ## Selected site (black)
+  A[i, j] <- 1
+  
+  ## Colors
+  cols <- c("white", "grey20", "#E5484D", "#4285F4")
+  
+  ## Plot lattice
+  image(
+    1:M, 1:N,
+    t(apply(A, 2, rev)),
+    col = cols,
+    breaks = c(-0.5, 0.5, 1.5, 2.5, 3.5),
+    xlim = c(0.5, M + 0.5),
+    ylim = c(0.5, N + 0.5),
+    xlab = "",
+    ylab = "",
+    main = "Periodic Neighborhoods",
+    asp = 1,
+    axes = FALSE,
+    xaxs = "i",
+    yaxs = "i"
+  )
+  
+  ## Vertical grid lines
+  segments(
+    x0 = seq(0.5, M + 0.5, 1),
+    y0 = 0.5,
+    x1 = seq(0.5, M + 0.5, 1),
+    y1 = N + 0.5,
+    col = "gray80",
+    lwd = 0.5
+  )
+  
+  ## Horizontal grid lines
+  segments(
+    x0 = 0.5,
+    y0 = seq(0.5, N + 0.5, 1),
+    x1 = M + 0.5,
+    y1 = seq(0.5, N + 0.5, 1),
+    col = "gray80",
+    lwd = 0.5
+  )
+  
+  ## Outer border
+  rect(0.5, 0.5, M + 0.5, N + 0.5, border = "black")
+  
+  invisible(A)
+}
+
+
+Pattern_Viz_Periodic(i = 2, j = 2)
+
 
 
 
