@@ -8,7 +8,6 @@
 frames/
 
 ## Generated videos
-#*.mp4
 
 # Temporary files
 *.tmp
